@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Misokuhle Ngalo — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:       #050a12;
+    --surface:  #0c1524;
+    --card:     #101d30;
+    --border:   #1a2d47;
+    --teal:     #00e5c8;
+    --blue:     #3b82f6;
+    --gold:     #f59e0b;
+    --purple:   #a78bfa;
+    --red:      #f87171;
+    --text:     #e2eaf6;
+    --muted:    #6b8aad;
+    --font-mono: 'Space Mono', monospace;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(5,10,18,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    display: flex; align-items: center; justify-content: space-between;
+    height: 62px;
+  }
+  .nav-logo {
+    font-family: var(--font-mono); font-size: 0.85rem;
+    color: var(--teal); letter-spacing: 0.08em;
+  }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--muted); text-decoration: none; letter-spacing: 0.06em;
+    text-transform: uppercase; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 100px 0 60px;
+    background: radial-gradient(ellipse 70% 55% at 60% 40%, rgba(0,229,200,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 20% 80%, rgba(59,130,246,0.06) 0%, transparent 60%);
+  }
+  .hero-tag {
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--teal); letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .hero-tag::before { content: ''; display: block; width: 32px; height: 1px; background: var(--teal); }
+  h1.name {
+    font-family: var(--font-head); font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800; line-height: 1.0;
+    color: var(--text); letter-spacing: -0.03em;
+  }
+  h1.name span { color: var(--teal); }
+  .hero-sub {
+    font-family: var(--font-body); font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--muted); margin-top: 1.2rem; max-width: 520px;
+    font-weight: 300; line-height: 1.65;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem;
+  }
+  .btn {
+    font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 0.75rem 1.8rem; border-radius: 3px;
+    text-decoration: none; transition: all 0.22s; cursor: pointer; border: none;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-primary { background: var(--teal); color: var(--bg); font-weight: 700; }
+  .btn-primary:hover { background: #00ffd8; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,229,200,0.25); }
+  .btn-outline { background: transparent; color: var(--teal); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--teal); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; flex-wrap: wrap;
+    margin-top: 3.5rem; padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: var(--font-head); font-size: 2rem; font-weight: 800;
+    color: var(--teal); line-height: 1;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; letter-spacing: 0.04em; }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--teal);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem;
+  }
+  .section-label::before { content: '//'; opacity: 0.5; }
+  .section-title {
+    font-family: var(--font-head); font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 800; color: var(--text); margin-bottom: 0.6rem;
+    letter-spacing: -0.02em; line-height: 1.15;
+  }
+  .section-desc { color: var(--muted); max-width: 500px; font-size: 0.95rem; margin-bottom: 3rem; }
+
+  /* ── CERTIFICATIONS ── */
+  #certifications { padding: 100px 0; }
+  .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+
+  .cert-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.6rem;
+    position: relative; overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  }
+  .cert-card:hover { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 12px 40px rgba(0,229,200,0.08); }
+  .cert-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .cert-card.status-inprogress::before { background: linear-gradient(90deg, var(--gold), #fbbf24); }
+  .cert-card.status-planned::before { background: linear-gradient(90deg, var(--blue), var(--purple)); }
+  .cert-card.status-done::before { background: linear-gradient(90deg, var(--teal), #00ffd8); }
+
+  .cert-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+  .cert-icon {
+    width: 44px; height: 44px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .cert-icon.aws { background: rgba(245,158,11,0.12); }
+  .cert-icon.pm  { background: rgba(167,139,250,0.12); }
+  .cert-icon.gh  { background: rgba(59,130,246,0.12); }
+  .cert-icon.li  { background: rgba(0,229,200,0.10); }
+
+  .status-badge {
+    font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: 50px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .badge-inprogress { background: rgba(245,158,11,0.15); color: var(--gold); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-planned    { background: rgba(59,130,246,0.12); color: var(--blue);  border: 1px solid rgba(59,130,246,0.25); }
+  .badge-done       { background: rgba(0,229,200,0.12); color: var(--teal);  border: 1px solid rgba(0,229,200,0.25); }
+
+  .cert-name {
+    font-family: var(--font-head); font-size: 1rem; font-weight: 700;
+    color: var(--text); margin-bottom: 0.25rem;
+  }
+  .cert-provider { font-size: 0.78rem; color: var(--muted); }
+  .cert-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.55; margin: 0.8rem 0 1rem; }
+
+  .progress-wrap { }
+  .progress-labels { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
+  .progress-labels span { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); }
+  .progress-bar {
+    height: 5px; background: var(--border); border-radius: 50px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 50px;
+    transition: width 1.2s cubic-bezier(.16,1,.3,1);
+  }
+  .fill-gold   { background: linear-gradient(90deg, var(--gold), #fcd34d); }
+  .fill-blue   { background: linear-gradient(90deg, var(--blue), var(--purple)); }
+  .fill-teal   { background: linear-gradient(90deg, var(--teal), #00ffd8); }
+
+  /* ── PROJECTS ── */
+  #projects { padding: 100px 0; background: radial-gradient(ellipse 60% 40% at 80% 50%, rgba(59,130,246,0.04) 0%, transparent 70%); }
+  .project-list { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .project-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 2rem;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 1rem; align-items: start;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .project-card:hover { border-color: rgba(0,229,200,0.4); transform: translateX(4px); }
+  .project-num {
+    font-family: var(--font-mono); font-size: 0.7rem; color: var(--teal);
+    letter-spacing: 0.12em; margin-bottom: 0.5rem; opacity: 0.7;
+  }
+  .project-title {
+    font-family: var(--font-head); font-size: 1.2rem; font-weight: 700;
+    color: var(--text); margin-bottom: 0.4rem;
+  }
+  .project-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; max-width: 600px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+  .tag {
+    font-family: var(--font-mono); font-size: 0.67rem; letter-spacing: 0.08em;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); padding: 0.2rem 0.6rem; border-radius: 3px;
+  }
+  .project-status { flex-shrink: 0; }
+
+  /* ── SKILLS ── */
+  #skills { padding: 100px 0; }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+  .skill-group {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem;
+  }
+  .skill-group-title {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--teal);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem;
+  }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .pill {
+    font-size: 0.82rem; color: var(--text); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 0.3rem 0.8rem; transition: border-color 0.2s, color 0.2s;
+  }
+  .pill:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* ── ABOUT / CONTACT ── */
+  #contact { padding: 100px 0; }
+  .contact-box {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+  }
+  .contact-text h2 { font-family: var(--font-head); font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+  .contact-text p { color: var(--muted); line-height: 1.7; font-size: 0.95rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.9rem 1.2rem; border-radius: 6px;
+    background: var(--surface); border: 1px solid var(--border);
+    text-decoration: none; color: var(--text); font-size: 0.88rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .contact-link:hover { border-color: var(--teal); transform: translateX(4px); }
+  .contact-link .icon { font-size: 1.2rem; }
+  .contact-link .label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; }
+  .contact-link .value { color: var(--text); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border); padding: 2rem;
+    text-align: center; font-family: var(--font-mono); font-size: 0.72rem;
+    color: var(--muted); position: relative; z-index: 1;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0} }
+  .cursor { display:inline-block; width:3px; height:1em; background:var(--teal); margin-left:3px; animation:blink 1s step-end infinite; vertical-align:middle; }
+  .animate { animation: fadeUp 0.7s ease both; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.22s; }
+  .delay-3 { animation-delay: 0.34s; }
+  .delay-4 { animation-delay: 0.46s; }
+
+  @media(max-width:700px){
+    .contact-box { grid-template-columns: 1fr; }
+    .nav-links { display:none; }
+    .project-card { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">MN — Portfolio</span>
+  <div class="nav-links">
+    <a href="#certifications">Certs</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-tag animate">Available for Internships · 2026<!-- CHANGE THE YEAR HERE WHEN NEEDED --></div>
+    <h1 class="name animate delay-1">Misokuhle<br><span>Ngalo</span><span class="cursor"></span></h1>
+    <p class="hero-sub animate delay-2">
+      <!-- CHANGE THIS INTRO SENTENCE TO DESCRIBE YOURSELF -->
+      Final-year Computer Science student at TUT eMalahleni — building real projects, earning cloud certifications, and ready to contribute from day one.
+    </p>
+    <div class="hero-cta animate delay-3">
+      <a href="#contact" class="btn btn-primary">↗ Get In Touch</a>
+      <a href="#projects" class="btn btn-outline">View Projects</a>
+    </div>
+    <div class="hero-stats animate delay-4">
+      <div>
+        <!-- CHANGE THE NUMBER BELOW AS YOU ADD MORE PROJECTS -->
+      <div class="stat-num">3</div>
+        <div class="stat-label">Active Projects</div>
+      </div>
+      <div>
+        <!-- CHANGE THE NUMBER BELOW AS YOU COMPLETE MORE CERTS -->
+      <div class="stat-num">2+</div>
+        <div class="stat-label">Certifications Underway</div>
+      </div>
+      <div>
+        <div class="stat-num">4</div>
+        <div class="stat-label">Languages / Stacks</div>
+      </div>
+      <div>
+        <div class="stat-num">2027</div>
+        <div class="stat-label">Graduating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="container">
+    <div class="section-label">Credentials</div>
+    <h2 class="section-title">Certifications</h2>
+    <p class="section-desc">Actively investing in industry-recognised credentials to complement my diploma.</p>
+
+    <div class="cert-grid">
+
+      <div class="cert-card status-inprogress">
+        <div class="cert-header">
+          <div class="cert-icon aws">☁️</div>
+          <!-- CHANGE STATUS: badge-inprogress=yellow, badge-planned=blue, badge-done=green. Also change the emoji and text -->
+          <span class="status-badge badge-inprogress">⏳ In Progress</span>
+        </div>
+        <div class="cert-name">AWS Cloud Practitioner</div>
+        <div class="cert-provider">Amazon Web Services — Foundational</div>
+        <div class="cert-desc">Foundational certification covering core AWS services, cloud concepts, security, pricing, and architecture fundamentals.</div>
+        <div class="progress-wrap">
+          <!-- CHANGE BOTH 20% numbers below as you study (e.g. 50% when halfway, 100% when done) -->
+        <div class="progress-labels"><span>Progress</span><span>3%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-gold" style="width:3%"></div></div>
+        </div>
+      </div>
+
+      <div class="cert-card status-planned">
+        <div class="cert-header">
+          <div class="cert-icon aws">🏗️</div>
+          <!-- CHANGE STATUS BADGE ABOVE WHEN YOU START THIS CERT -->
+          <span class="status-badge badge-planned">🔵 Planned</span>
+        </div>
+        <div class="cert-name">AWS Solutions Architect</div>
+        <div class="cert-provider">Amazon Web Services — Associate</div>
+        <div class="cert-desc">Design and deploy scalable, highly available, fault-tolerant systems on AWS. The next step after Cloud Practitioner.</div>
+        <div class="progress-wrap">
+          <div class="progress-labels"><span>Progress</span><span>0%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-blue" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="cert-card status-planned">
+        <div class="cert-header">
+          <div class="cert-icon pm">📋</div>
+          <!-- CHANGE STATUS BADGE ABOVE WHEN YOU START THIS CERT -->
+          <span class="status-badge badge-planned">🔵 Planned</span>
+        </div>
+        <div class="cert-name">Project Management Certificate</div>
+        <div class="cert-provider">Google / PMI</div>
+        <div class="cert-desc">Structured approach to planning, executing, and closing projects — covering agile, scrum, and traditional PM methodologies.</div>
+        <div class="progress-wrap">
+          <div class="progress-labels"><span>Progress</span><span>0%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-blue" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="cert-card status-planned">
+        <div class="cert-header">
+          <div class="cert-icon gh">🐙</div>
+          <!-- CHANGE THIS TO badge-done and tick emoji when your GitHub is live -->
+          <span class="status-badge badge-planned">🔵 Setting Up</span>
+        </div>
+        <div class="cert-name">GitHub Profile</div>
+        <div class="cert-provider">github.com/misokuhle-ngalo</div>
+        <div class="cert-desc">Portfolio of code, projects, and contributions — being set up and populated with real project repositories.</div>
+        <div class="progress-wrap">
+          <div class="progress-labels"><span>Progress</span><span>5%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-blue" style="width:5%"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">Work</div>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-desc">Real projects, real problems, real code.</p>
+
+    <div class="project-list">
+
+      <div class="project-card">
+        <div>
+          <!-- PROJECT 1: CHANGE TITLE AND DESCRIPTION BELOW WHEN PROJECT UPDATES -->
+          <div class="project-num">PROJECT 01</div>
+          <div class="project-title">Patient Queue Management System</div>
+          <div class="project-desc">A hospital management application built to tackle the critical problem of excessively long waiting times in South African public health facilities. The system digitises patient intake, manages appointment queues intelligently, and gives staff real-time visibility of patient flow.</div>
+          <div class="project-tags">
+            <span class="tag">Java</span><span class="tag">SQL</span><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span><span class="tag">AI</span><span class="tag">Group Project</span>
+          </div>
+        </div>
+        <div class="project-status">
+          <span class="status-badge badge-inprogress">⏳ In Progress</span><!-- CHANGE TO badge-done and Completed when finished -->
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div>
+          <!-- PROJECT 2: UPDATE DESCRIPTION WHEN YOU CAN REVEAL MORE DETAILS -->
+          <div class="project-num">PROJECT 02</div>
+          <div class="project-title">Stealth Mobile App</div>
+          <div class="project-desc">Co-developing a mobile application with a business partner. Details are confidential pending IP registration, but the project involves full-stack mobile development applying agile methodology, user experience design, and product thinking from concept to MVP.</div>
+          <div class="project-tags">
+            <span class="tag">Mobile Dev</span><span class="tag">Co-Founder</span><span class="tag">Agile</span><span class="tag">AI</span><span class="tag">Confidential</span>
+          </div>
+        </div>
+        <div class="project-status">
+          <span class="status-badge badge-inprogress">⏳ In Development</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div>
+          <div class="project-num">PROJECT 03</div>
+          <div class="project-title">AI-Integrated Mini Project</div>
+          <div class="project-desc">A solo personal project aimed at demonstrating practical integration of AI/ML APIs with a clean web interface. The goal is to build something small, clever, and genuinely useful — showcasing the ability to work with modern APIs and ship a finished product.</div>
+          <div class="project-tags">
+            <span class="tag">JavaScript</span><span class="tag">AI/ML API</span><span class="tag">REST</span>
+          </div>
+        </div>
+        <div class="project-status">
+          <span class="status-badge badge-planned">🔵 Upcoming</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label">Capabilities</div>
+    <h2 class="section-title">Skills</h2>
+    <p class="section-desc">Technologies and practices I use and am actively expanding.</p>
+
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">Languages</div>
+        <div class="skill-pills">
+          <span class="pill">Java</span><span class="pill">JavaScript</span><span class="pill">HTML</span><span class="pill">CSS</span><span class="pill">SQL</span><span class="pill">Kotlin</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Databases</div>
+        <div class="skill-pills">
+          <span class="pill">MySQL</span><span class="pill">Relational Design</span><span class="pill">Basic Query Optimisation</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Tools & Platforms</div>
+        <div class="skill-pills">
+          <span class="pill">VS Code</span><span class="pill">Netbeans IDE</span><span class="pill">Git (learning)</span><span class="pill">AWS (in progress)</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Concepts</div>
+        <div class="skill-pills">
+          <span class="pill">OOP</span><span class="pill">MVC Architecture</span><span class="pill">Agile / Scrum</span><span class="pill">SDLC</span><span class="pill">REST APIs</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Soft Skills</div>
+        <div class="skill-pills">
+          <span class="pill">Team Collaboration</span><span class="pill">Communication</span><span class="pill">Problem Solving</span><span class="pill">Self-driven</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-box">
+      <div class="contact-text">
+        <div class="section-label">Get in touch</div>
+        <h2>Let's connect.</h2>
+        <p>I'm actively looking for internship opportunities for 2026. If you're hiring or just want to connect, reach out — I respond fast.</p>
+        <br/>
+        <p style="font-size:0.82rem; color:var(--muted);">📍 Johannesburg / eMalahleni, South Africa<br/>🎓 TUT eMalahleni — Diploma in Computer Science, Final Year</p>
+      </div>
+      <div class="contact-links">
+        <a href="https://mail.google.com/mail/?view=cm&to=nenemiso52@gmail.com" class="contact-link">
+          <span class="icon">✉️</span>
+          <div>
+            <div class="label">Email</div>
+            <div class="value">nenemiso52@gmail.com</span></div>
+          </div>
+        </a>
+        <a href="tel:0625534314" class="contact-link">
+          <span class="icon">📞</span>
+          <div>
+            <div class="label">Phone</div>
+            <div class="value">062 553 4314</div>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/misokuhle-ngalo" target="_blank" class="contact-link">
+          <span class="icon">💼</span>
+          <div>
+            <div class="label">LinkedIn</div>
+            <!-- REPLACE misokuhle-ngalo WITH YOUR ACTUAL LINKEDIN USERNAME ONCE CREATED -->
+            <div class="value">linkedin.com/in/misokuhle-ngalo</div>
+          </div>
+        </a>
+        <a href="https://github.com/misokuhle-ngalo" target="_blank" class="contact-link">
+          <span class="icon">🐙</span>
+          <div>
+            <div class="label">GitHub</div>
+            <!-- REPLACE misokuhle-ngalo WITH YOUR ACTUAL GITHUB USERNAME ONCE CREATED -->
+            <div class="value">github.com/misokuhle-ngalo</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Misokuhle Ngalo · Johannesburg, South Africa</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Animate progress bars when they enter view
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.progress-fill').forEach(bar => {
+          const w = bar.style.width;
+          bar.style.width = '0%';
+          setTimeout(() => { bar.style.width = w; }, 100);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.cert-card').forEach(c => observer.observe(c));
+
+  // Fade-in on scroll
+  const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.cert-c
